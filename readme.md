@@ -1,4 +1,42 @@
+2nd :
+```
+import numpy as np
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+from sklearn.model_selection import train_test_split
+from sklearn.datasets import make_classification
+from sklearn.preprocessing import StandardScaler
 
+# Generate sample classification data
+X, y = make_classification(n_samples=1000, n_features=10, random_state=42)
+
+# Train-test split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+
+# Feature scaling
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+# ANN Model
+model = Sequential([
+    Dense(16, activation='relu', input_shape=(X_train.shape[1],)),
+    Dense(8, activation='relu'),
+    Dense(1, activation='sigmoid')   # Binary classification
+])
+
+# Compile model
+model.compile(optimizer='adam',
+              loss='binary_crossentropy',
+              metrics=['accuracy'])
+
+# Train model
+model.fit(X_train, y_train, epochs=20, batch_size=32, verbose=1)
+
+# Evaluate model
+loss, accuracy = model.evaluate(X_test, y_test)
+print("Test Accuracy:", accuracy)
+```
 
 3rd: cnn for mri
 ```
