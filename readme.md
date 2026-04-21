@@ -1,3 +1,44 @@
+1st:
+```
+import tensorflow as tf
+from tensorflow.keras import layers, models
+from tensorflow.keras.datasets import mnist
+
+# 1. Check TensorFlow version
+print("TensorFlow:", tf.__version__)
+
+# 2. Load dataset
+(x_train, y_train), (x_test, y_test) = mnist.load_data()
+
+# 3. Normalize data
+x_train = x_train / 255.0
+x_test = x_test / 255.0
+
+# 4. Build model
+model = models.Sequential([
+    layers.Flatten(input_shape=(28, 28)),
+    layers.Dense(128, activation='relu'),
+    layers.Dense(10, activation='softmax')
+])
+
+# 5. Compile model
+model.compile(
+    optimizer='adam',
+    loss='sparse_categorical_crossentropy',
+    metrics=['accuracy']
+)
+
+# 6. Train model
+model.fit(x_train, y_train, epochs=5, batch_size=32)
+
+# 7. Evaluate model
+test_loss, test_acc = model.evaluate(x_test, y_test)
+print("Test Accuracy:", test_acc)
+
+# 8. Prediction
+prediction = model.predict(x_test[:1])
+print("Predicted class:", prediction.argmax())
+```
 2nd :
 ```
 import numpy as np
